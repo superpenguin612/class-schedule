@@ -484,8 +484,6 @@ SCHOOL_DATA = {
     },
 }
 
-now_date = datetime.datetime.now() - datetime.timedelta(hours=5)
-
 
 class Day:
     day_name: str
@@ -503,7 +501,7 @@ current_day = Day()
 
 
 def _set_day_information() -> None:
-    formatted_date = datetime.datetime.strftime(now_date, "%m/%d/%Y")
+    formatted_date = datetime.datetime.strftime(datetime.datetime.now(), "%m/%d/%Y")
     current_day.day_name = SCHOOL_DATA["days"][formatted_date]
     search_result = re.search("(Blue|Gold)", current_day.day_name).group()
     if search_result:
@@ -517,7 +515,9 @@ def _set_day_information() -> None:
 
 
 def create_day_result() -> str:
-    formatted_date = datetime.datetime.strftime(now_date, "%A, %B %d, %Y")
+    formatted_date = datetime.datetime.strftime(
+        datetime.datetime.now(), "%A, %B %d, %Y"
+    )
     return f"Today is {formatted_date} ({current_day.day_name})."
 
 
@@ -541,10 +541,10 @@ def create_block_result() -> str:
             if not block_result:
                 class_time_difference = (
                     datetime.datetime.combine(
-                        now_date.date(),
+                        datetime.datetime.now().date(),
                         datetime.datetime.strptime(time, "%H:%M").time(),
                     )
-                    - now_date
+                    - datetime.datetime.now()
                 )
                 if class_time_difference > datetime.timedelta():
                     block_name = SCHOOL_DATA["times"][current_day.day_type][
@@ -571,10 +571,10 @@ def create_day_overview_result() -> str:
         ):
             class_time_difference = (
                 datetime.datetime.combine(
-                    now_date.date(),
+                    datetime.datetime.now().date(),
                     datetime.datetime.strptime(time, "%H:%M").time(),
                 )
-                - now_date
+                - datetime.datetime.now()
             )
             if class_time_difference > datetime.timedelta():
                 day_overview_blocks.append(
@@ -599,7 +599,7 @@ def create_day_overview_result() -> str:
 def create_week_overview_result() -> str:
     week_overview_result = []
     for i in range(7):
-        date = now_date + datetime.timedelta(days=i + 1)
+        date = datetime.datetime.now() + datetime.timedelta(days=i + 1)
         week_overview_result.append(
             f"{date.strftime('%a, %b %d, %Y')}: {SCHOOL_DATA['days'][date.strftime('%m/%d/%Y')]}"
         )
