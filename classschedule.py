@@ -488,7 +488,7 @@ SCHOOL_DATA = {
 class Day:
     day_name: str
     is_school_day: bool
-    classes: dict[str]
+    classes: dict
     lunch: str
     day_type: str
     school_over: bool
